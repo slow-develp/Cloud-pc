@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1020">
+<title>Cloud PC — Painel</title>
+<style>
+:root{color-scheme:dark;--bg:#080d18;--panel:#111a2b;--panel2:#0d1524;--line:#26334a;--text:#eef4ff;--muted:#9aa9c2;--blue:#5c8dff;--cyan:#57d5e8;--green:#4bd39a;--orange:#f0b35b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 70% -10%,#1c3156 0,transparent 42%),var(--bg);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text)}
+button,input{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
+.shell{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}
+aside{border-right:1px solid var(--line);background:#0a1120;padding:24px 16px;display:flex;flex-direction:column;gap:28px}
+.brand{display:flex;align-items:center;gap:12px;padding:0 10px;font-weight:800;font-size:18px;letter-spacing:.2px}.logo{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--blue),#6c5cff);box-shadow:0 8px 24px #385ecb44}
+.navlabel{font-size:11px;color:#71819e;text-transform:uppercase;letter-spacing:1.4px;padding:0 12px;margin-bottom:8px}.nav{display:grid;gap:5px}.nav a{padding:11px 12px;border-radius:11px;color:#aab8ce;display:flex;gap:12px;align-items:center}.nav a.active,.nav a:hover{background:#182640;color:#fff}.nav .ic{width:20px;text-align:center;color:#8aa9ff}
+.sidebottom{margin-top:auto;border:1px solid var(--line);background:#0e192b;border-radius:14px;padding:14px}.sidebottom small{color:var(--muted);display:block;margin-top:5px}
+main{min-width:0;padding:28px clamp(16px,4vw,48px) 40px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:28px}.crumb{color:var(--muted);font-size:13px}.profile{display:flex;align-items:center;gap:10px;color:#dce6f8}.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#22385c;border:1px solid #3b5680;font-weight:700}
+h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.8px;margin:0 0 7px}.sub{color:var(--muted);margin:0}.headrow{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:25px}.pill{border:1px solid #2c3d58;background:#111d30;border-radius:999px;padding:7px 11px;color:#b9c8df;font-size:12px;white-space:nowrap}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--orange);margin-right:7px}
+.grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,1fr);gap:18px}.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#121d30,#0e1727);padding:22px;min-width:0;box-shadow:0 14px 40px #00000012}.cardhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.card h2{font-size:16px;margin:0;font-weight:700}.muted{color:var(--muted);font-size:13px}
+.hero{position:relative;overflow:hidden;min-height:280px;background:linear-gradient(125deg,#152a4b,#101a2b 60%,#17213a)}.hero:after{content:"";position:absolute;width:280px;height:280px;border:1px solid #6f9cff22;border-radius:50%;right:-90px;top:-110px;box-shadow:0 0 0 35px #6f9cff0a,0 0 0 75px #6f9cff07}.hero-content{position:relative;z-index:1}.winmark{display:flex;gap:5px;width:35px;height:35px;transform:perspective(80px) rotateY(-8deg);margin-bottom:22px}.winmark span{flex:1;background:#6ea4ff;border-radius:2px}.winmark span:nth-child(2),.winmark span:nth-child(4){opacity:.65}.hero h2{font-size:22px;margin-bottom:7px}.hero p{color:#a9bad5;margin:0 0 22px;max-width:450px}.actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:1px solid #354660;background:#17243a;color:#e7efff;padding:10px 15px;border-radius:10px;font-weight:650;font-size:13px}.btn.primary{border-color:#5d8cff;background:linear-gradient(135deg,#5d8cff,#526fe0);color:white;box-shadow:0 7px 20px #466bd533}.btn:disabled{opacity:.48;cursor:not-allowed}.btn:hover:not(:disabled){filter:brightness(1.12)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.stat{padding:13px;border:1px solid #27364e;background:#0c1524;border-radius:12px}.stat span{display:block;color:var(--muted);font-size:11px;margin-bottom:4px}.stat strong{font-size:15px}
+.stack{display:grid;gap:18px}.statusrow{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #202d42}.statusrow:last-child{border-bottom:0;padding-bottom:0}.statusrow:first-of-type{padding-top:0}.statusrow span{color:var(--muted);font-size:13px}.statusrow strong{font-size:13px;font-weight:600}.warning{border:1px solid #57472e;background:#2a2117;color:#e8c58d;padding:12px 14px;border-radius:12px;font-size:12px;margin-top:16px}
+.lower{display:grid;grid-template-columns:1.2fr 1fr;gap:18px;margin-top:18px}.step{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #202d42}.step:last-child{border-bottom:0}.stepnum{flex:0 0 27px;height:27px;border-radius:9px;background:#1b2b45;color:#8db0ff;display:grid;place-items:center;font-size:12px;font-weight:800}.step b{display:block;font-size:13px;margin-bottom:3px}.step p{margin:0;color:var(--muted);font-size:12px}.field{display:grid;gap:7px;margin-top:14px}.field label{font-size:12px;color:#a9b8ce}.field input{width:100%;border:1px solid #2b3b54;border-radius:10px;background:#0a1220;color:#eaf1ff;padding:10px 12px;outline:none}.field input:focus{border-color:#668fff}.field small{color:#7888a2;font-size:11px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#1b2a40;border:1px solid #425776;padding:11px 15px;border-radius:12px;box-shadow:0 12px 40px #0008;display:none;max-width:calc(100vw - 30px);font-size:13px;z-index:5}
+footer{color:#667793;font-size:11px;text-align:center;margin-top:25px}
+@media(max-width:850px){.shell{grid-template-columns:1fr}aside{display:none}main{padding:20px 15px 30px}.grid,.lower{grid-template-columns:1fr}.headrow{align-items:start;flex-direction:column}.top{margin-bottom:22px}.card{padding:18px}.hero{min-height:250px}.stats{gap:7px}.stat{padding:10px}.stat strong{font-size:13px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside>
+  <div class="brand"><div class="logo">▣</div><span>Cloud<span style="color:#7da4ff">PC</span></span></div>
+  <div><div class="navlabel">Workspace</div><nav class="nav">
+    <a class="active" href="#dashboard"><span class="ic">▦</span> Painel</a>
+    <a href="#machine"><span class="ic">▣</span> Meu computador</a>
+    <a href="#setup"><span class="ic">⚙</span> Configuração</a>
+  </nav></div>
+  <div class="sidebottom"><strong>Modo pessoal</strong><small>Servidor ainda não conectado.<br>Este painel não inicia uma máquina sozinho.</small></div>
+</aside>
+<main id="dashboard">
+  <div class="top"><div class="crumb">Workspace / <strong style="color:#e7efff">Painel</strong></div><div class="profile"><div class="avatar">U</div><span>Usuário</span></div></div>
+  <div class="headrow"><div><h1>Seu Cloud PC</h1><p class="sub">Um computador remoto, acessível pelo navegador.</p></div><div class="pill"><span class="dot"></span>Servidor desconectado</div></div>
+  <div class="grid">
+    <section class="card hero" id="machine">
+      <div class="hero-content">
+        <div class="winmark"><span></span><span></span><span></span><span></span></div>
+        <h2>Windows Cloud Desktop</h2>
+        <p>Conecte um servidor Windows para abrir sua área de trabalho remota aqui. A conexão ainda não foi configurada.</p>
+        <div class="actions"><button class="btn primary" id="connect" disabled>Conectar ao Windows</button><button class="btn" id="check">Verificar conexão</button></div>
+        <div class="stats"><div class="stat"><span>Sistema</span><strong>Windows (pendente)</strong></div><div class="stat"><span>Uso</span><strong>Pessoal</strong></div><div class="stat"><span>Estado</span><strong>Não conectado</strong></div></div>
+      </div>
+    </section>
+    <section class="card">
+      <div class="cardhead"><h2>Status da máquina</h2><span class="muted">Ao vivo depois de conectar</span></div>
+      <div class="statusrow"><span>Servidor</span><strong style="color:#f0b35b">Não configurado</strong></div>
+      <div class="statusrow"><span>Conexão</span><strong>—</strong></div>
+      <div class="statusrow"><span>CPU / RAM</span><strong>—</strong></div>
+      <div class="statusrow"><span>Tempo de sessão</span><strong>—</strong></div>
+      <div class="warning">⚠️ Os controles são apenas a interface inicial. Não existe servidor conectado ainda; os botões não iniciam nem controlam um Windows neste momento.</div>
+    </section>
+  </div>
+  <div class="lower">
+    <section class="card">
+      <div class="cardhead"><h2>Próximas etapas</h2><span class="muted">Setup</span></div>
+      <div class="step"><div class="stepnum">1</div><div><b>Encontrar hospedagem gratuita</b><p>Precisamos de uma VM Windows ou servidor compatível, sem cartão e com condições de uso aceitáveis.</p></div></div>
+      <div class="step"><div class="stepnum">2</div><div><b>Preparar conexão remota</b><p>Configurar um gateway seguro (por exemplo, acesso remoto via navegador) no servidor.</p></div></div>
+      <div class="step"><div class="stepnum">3</div><div><b>Conectar este painel</b><p>Adicionar a URL de conexão e validar o acesso antes de habilitar o botão.</p></div></div>
+    </section>
+    <section class="card" id="setup">
+      <div class="cardhead"><h2>Conexão do servidor</h2><span class="pill">Em preparação</span></div>
+      <div class="field"><label for="server">URL do gateway remoto</label><input id="server" type="url" placeholder="https://seu-servidor.example" autocomplete="url"><small>Exemplo ilustrativo. Não cole senha, token ou chave privada aqui.</small></div>
+      <div class="field"><label for="note">Identificação (opcional)</label><input id="note" type="text" placeholder="Meu Windows pessoal"></div>
+      <div class="actions" style="margin-top:15px"><button class="btn primary" id="save">Salvar configuração local</button><button class="btn" id="clear">Limpar</button></div>
+      <p class="muted" style="margin:13px 0 0;font-size:11px">A URL fica apenas nesta página durante a sessão. Este protótipo não envia dados a um servidor.</p>
+    </section>
+  </div>
+  <footer>Cloud PC • Protótipo inicial • Sem servidor conectado</footer>
+</main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const toastEl=document.getElementById('toast');
+function toast(message){toastEl.textContent=message;toastEl.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>toastEl.style.display='none',3500)}
+document.getElementById('check').addEventListener('click',()=>toast('Ainda não há gateway configurado. Primeiro precisamos de um servidor Windows real.'));
+document.getElementById('save').addEventListener('click',()=>{const url=document.getElementById('server').value.trim();if(!url){toast('Informe a URL do gateway para salvar a configuração.');return}try{const parsed=new URL(url);if(!['http:','https:'].includes(parsed.protocol)){toast('Use uma URL HTTP ou HTTPS.');return}sessionStorage.setItem('cloudpc_gateway',parsed.href);sessionStorage.setItem('cloudpc_name',document.getElementById('note').value.trim());toast('URL guardada nesta sessão. A conexão ainda precisa ser integrada.')}catch(e){toast('URL inválida. Confira o endereço.')}});
+document.getElementById('clear').addEventListener('click',()=>{document.getElementById('server').value='';document.getElementById('note').value='';sessionStorage.removeItem('cloudpc_gateway');sessionStorage.removeItem('cloudpc_name');toast('Configuração local limpa.')});
+</script>
+</body>
+</html>
